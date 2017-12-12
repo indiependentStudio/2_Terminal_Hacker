@@ -10,7 +10,7 @@ public class Hacker : MonoBehaviour {
     // member (state) variables
     int level;
     Screen currentScreen;
-    string usersGuess;
+    string password;
 
 	// Use this for initialization
 	void Start () {
@@ -51,16 +51,19 @@ public class Hacker : MonoBehaviour {
         if (input == "1")
         {
             level = 1;
+            password = "twins";
             StartGame();
         }
         else if (input == "2")
         {
             level = 2;
+            password = "shortbread";
             StartGame();
         }
         else if (input == "3")
         {
             level = 3;
+            password = "aaaaa";
             StartGame();
         }
         else
@@ -79,39 +82,10 @@ public class Hacker : MonoBehaviour {
 
     void ProcessPasswordGuess(string input)
     {
-        usersGuess = input;
-        if (level == 1)
-        {
-            if (usersGuess == "twins")
-            {
-                DisplayWin();
-            }
-            else
-            {
-                TryAgain();
-            }
-        }
-        else if (level == 2)
-        {
-            if (usersGuess == "shortbread")
-            {
-                DisplayWin();
-            }
-            else
-            {
-                TryAgain();
-            }
-        }
-        else if (level == 3)
-        {
-            if (usersGuess == "aaaaa")
-            {
-                DisplayWin();
-            }
-            else
-            {
-                TryAgain();
-            }
+        if (input == password) {
+            DisplayWin();
+        } else {
+            TryAgain();
         }
     }
 
