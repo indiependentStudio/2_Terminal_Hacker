@@ -7,9 +7,10 @@ public class Hacker : MonoBehaviour {
 
     enum Screen { MainMenu, Password, Win };
 
-    // member variables
+    // member (state) variables
     int level;
     Screen currentScreen;
+    string usersGuess;
 
 	// Use this for initialization
 	void Start () {
@@ -34,9 +35,14 @@ public class Hacker : MonoBehaviour {
         if (input == "menu")
         {
             ShowMainMenu("Welcome back, Mr Dave.");
-        } else if (currentScreen == Screen.MainMenu)
+        }
+        else if (currentScreen == Screen.MainMenu)
         {
             ProcessMenuInput(input);
+        }
+        else if (currentScreen == Screen.Password)
+        {
+            ProcessPasswordGuess(input);
         }
     }
 
@@ -65,7 +71,61 @@ public class Hacker : MonoBehaviour {
 
     void StartGame()
     {
-        Terminal.WriteLine("Starting Level " + level);
         currentScreen = Screen.Password;
+        Terminal.ClearScreen();
+        Terminal.WriteLine("Welcome to level " + level + ".");
+        Terminal.WriteLine("Enter your guess.");
+    }
+
+    void ProcessPasswordGuess(string input)
+    {
+        usersGuess = input;
+        if (level == 1)
+        {
+            if (usersGuess == "twins")
+            {
+                DisplayWin();
+            }
+            else
+            {
+                TryAgain();
+            }
+        }
+        else if (level == 2)
+        {
+            if (usersGuess == "shortbread")
+            {
+                DisplayWin();
+            }
+            else
+            {
+                TryAgain();
+            }
+        }
+        else if (level == 3)
+        {
+            if (usersGuess == "aaaaa")
+            {
+                DisplayWin();
+            }
+            else
+            {
+                TryAgain();
+            }
+        }
+    }
+
+    void TryAgain()
+    {
+        Terminal.WriteLine("Try again");
+    }
+
+    void DisplayWin()
+    {
+        currentScreen = Screen.Win;
+        Terminal.ClearScreen();
+        Terminal.WriteLine("Gratz, you are IN sir!");
+        Terminal.WriteLine("");
+        Terminal.WriteLine("Enter \"menu\" to start again");
     }
 }
