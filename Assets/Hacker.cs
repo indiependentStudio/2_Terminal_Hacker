@@ -7,6 +7,11 @@ public class Hacker : MonoBehaviour {
 
     enum Screen { MainMenu, Password, Win };
 
+    // game config
+    string[] level1passwords = { "twins", "sisters", "mulan", "cat", "dog" };
+    string[] level2passwords = { "shortbread", "ipad", "facebook", "wow", "shoes" };
+    string[] level3passwords = { "aaaaa", "bbbbb", "coding", "gaming", "mulan" };
+
     // member (state) variables
     int level;
     Screen currentScreen;
@@ -48,26 +53,12 @@ public class Hacker : MonoBehaviour {
 
     void ProcessMenuInput(string input)
     {
-        if (input == "1")
+        bool isValidLevelNumber = (input == "1" || input == "2" || input == "3");
+        if (isValidLevelNumber)
         {
-            level = 1;
-            password = "twins";
+            level = int.Parse(input);
             StartGame();
-        }
-        else if (input == "2")
-        {
-            level = 2;
-            password = "shortbread";
-            StartGame();
-        }
-        else if (input == "3")
-        {
-            level = 3;
-            password = "aaaaa";
-            StartGame();
-        }
-        else
-        {
+        } else {
             Terminal.WriteLine("Please enter a valid option.");
         }
     }
@@ -76,8 +67,23 @@ public class Hacker : MonoBehaviour {
     {
         currentScreen = Screen.Password;
         Terminal.ClearScreen();
-        Terminal.WriteLine("Welcome to level " + level + ".");
         Terminal.WriteLine("Enter your guess.");
+
+        switch (level) {
+            case 1:
+                password = level1passwords[1];
+                break;
+            case 2:
+                password = level2passwords[4];
+                break;
+            case 3:
+                password = level3passwords[2];
+                break;
+            default:
+                // shouldn't be able to get here
+                Debug.Log("Invalid level");
+                break;
+        }
     }
 
     void ProcessPasswordGuess(string input)
