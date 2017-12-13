@@ -1,18 +1,23 @@
 using UnityEngine;
+
 public class Hacker : MonoBehaviour {
     // game config
     enum Screen { MainMenu, Password, Win };
-    string[] level1passwords = { "twins", "sisters", "mulan", "cat", "dog" };
-    string[] level2passwords = { "shortbread", "ipad", "facebook", "wow", "shoes" };
-    string[] level3passwords = { "aaaaa", "bbbbb", "coding", "gaming", "mulan" };
+    // NB bad things happen is the password is "" or repeated chars like "aaaaa"
+    string[] level1Passwords = { "twins", "sisters", "mulan", "cat", "dog" };
+    string[] level2Passwords = { "shortbread", "ipad", "facebook", "wow", "shoes" };
+    string[] level3Passwords = { "banana", "starwars", "coding", "gaming", "mulan" };
+
     // member (state) variables
     int level;
     Screen currentScreen;
     string password;
-	// Use this for initialization
+	
+    // Use this for initialization
 	void Start () {
         ShowMainMenu("Good Evening, Dave");
 	}
+
     void ShowMainMenu(string greeting) {
         currentScreen = Screen.MainMenu;
         Terminal.ClearScreen();
@@ -25,6 +30,7 @@ public class Hacker : MonoBehaviour {
         Terminal.WriteLine("");
         Terminal.WriteLine("Enter the corresponding number.");
     }
+
     void OnUserInput(string input)
     {
         if (input == "menu") {
@@ -35,6 +41,7 @@ public class Hacker : MonoBehaviour {
             ProcessPasswordGuess(input);
         }
     }
+
     void ProcessMenuInput(string input)
     {
         bool isValidLevelNumber = (input == "1" || input == "2" || input == "3");
@@ -46,12 +53,13 @@ public class Hacker : MonoBehaviour {
             Terminal.WriteLine("Please enter a valid option.");
         }
     }
+
     void StartGame()
     {
         currentScreen = Screen.Password;
         Terminal.ClearScreen();
-        Terminal.WriteLine("Enter your guess.");
-       SetPasswordForLevel();
+        SetPasswordForLevel();
+        Terminal.WriteLine("Enter your guess. Hint: " + password.Anagram());
     }
 
     void SetPasswordForLevel()
@@ -59,13 +67,13 @@ public class Hacker : MonoBehaviour {
         switch (level)
         {
             case 1:
-                password = level1passwords[Random.Range(0, level1passwords.Length)];
+                password = level1Passwords[Random.Range(0, level1Passwords.Length)];
                 break;
             case 2:
-                password = level2passwords[Random.Range(0, level2passwords.Length)];
+                password = level2Passwords[Random.Range(0, level2Passwords.Length)];
                 break;
             case 3:
-                password = level3passwords[Random.Range(0, level3passwords.Length)];
+                password = level3Passwords[Random.Range(0, level3Passwords.Length)];
                 break;
             default:
                 // shouldn't be able to get here
@@ -82,10 +90,12 @@ public class Hacker : MonoBehaviour {
             TryAgain();
         }
     }
+
     void TryAgain()
     {
         Terminal.WriteLine("Try again");
     }
+
     void DisplayWin()
     {
         currentScreen = Screen.Win;
